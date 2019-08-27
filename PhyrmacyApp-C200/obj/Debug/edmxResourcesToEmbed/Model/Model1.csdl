@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AdminEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="AdminPassword" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Firm_To_Medicine">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MedicineId" Type="Int32" />
+    <Property Name="FirmId" Type="Int32" />
+    <NavigationProperty Name="Firm" Relationship="Self.FK__Firm_To_M__FirmI__3E52440B" FromRole="Firm_To_Medicine" ToRole="Firms" />
+    <NavigationProperty Name="Medicine" Relationship="Self.FK__Firm_To_M__Medic__3D5E1FD2" FromRole="Firm_To_Medicine" ToRole="Medicine" />
+  </EntityType>
+  <EntityType Name="Firm_To_Tags">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirmId" Type="Int32" />
+    <Property Name="TagId" Type="Int32" />
+    <NavigationProperty Name="Firm" Relationship="Self.FK__Firm_To_T__FirmI__5165187F" FromRole="Firm_To_Tags" ToRole="Firms" />
+    <NavigationProperty Name="Tag" Relationship="Self.FK__Firm_To_T__TagId__52593CB8" FromRole="Firm_To_Tags" ToRole="Tags" />
+  </EntityType>
+  <EntityType Name="Firm">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Firm_To_Medicine" Relationship="Self.FK__Firm_To_M__FirmI__3E52440B" FromRole="Firms" ToRole="Firm_To_Medicine" />
+    <NavigationProperty Name="Firm_To_Tags" Relationship="Self.FK__Firm_To_T__FirmI__5165187F" FromRole="Firms" ToRole="Firm_To_Tags" />
+  </EntityType>
+  <EntityType Name="Medicine">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Price" Type="Double" />
+    <Property Name="Count" Type="Int32" />
+    <Property Name="ProductionDate" Type="DateTime" Precision="3" />
+    <Property Name="ExperienceDate" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="Boolean" />
+    <NavigationProperty Name="Firm_To_Medicine" Relationship="Self.FK__Firm_To_M__Medic__3D5E1FD2" FromRole="Medicine" ToRole="Firm_To_Medicine" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Medicine__4316F928" FromRole="Medicine" ToRole="Orders" />
+    <NavigationProperty Name="Tag_To_Medicine" Relationship="Self.FK_Tag_To_Medicine_Medicine" FromRole="Medicine" ToRole="Tag_To_Medicine" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MedicineId" Type="Int32" />
+    <Property Name="WorkerId" Type="Int32" />
+    <Property Name="PurchaseDate" Type="DateTime" Precision="3" />
+    <Property Name="Amount" Type="Int32" />
+    <Property Name="Price" Type="Double" />
+    <NavigationProperty Name="Medicine" Relationship="Self.FK__Orders__Medicine__4316F928" FromRole="Orders" ToRole="Medicine" />
+    <NavigationProperty Name="Worker" Relationship="Self.FK__Orders__WorkerId__440B1D61" FromRole="Orders" ToRole="Workers" />
+  </EntityType>
+  <EntityType Name="Tag_To_Medicine">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MedicineId" Type="Int32" />
+    <Property Name="TagId" Type="Int32" />
+    <NavigationProperty Name="Medicine" Relationship="Self.FK_Tag_To_Medicine_Medicine" FromRole="Tag_To_Medicine" ToRole="Medicine" />
+    <NavigationProperty Name="Tag" Relationship="Self.FK_Tag_To_Medicine_Tags" FromRole="Tag_To_Medicine" ToRole="Tags" />
+  </EntityType>
+  <EntityType Name="Tag">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Firm_To_Tags" Relationship="Self.FK__Firm_To_T__TagId__52593CB8" FromRole="Tags" ToRole="Firm_To_Tags" />
+    <NavigationProperty Name="Tag_To_Medicine" Relationship="Self.FK_Tag_To_Medicine_Tags" FromRole="Tags" ToRole="Tag_To_Medicine" />
+  </EntityType>
+  <EntityType Name="Worker">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__WorkerId__440B1D61" FromRole="Workers" ToRole="Orders" />
+  </EntityType>
+  <Association Name="FK__Firm_To_M__FirmI__3E52440B">
+    <End Role="Firms" Type="Self.Firm" Multiplicity="0..1" />
+    <End Role="Firm_To_Medicine" Type="Self.Firm_To_Medicine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Firms">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Firm_To_Medicine">
+        <PropertyRef Name="FirmId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Firm_To_M__Medic__3D5E1FD2">
+    <End Role="Medicine" Type="Self.Medicine" Multiplicity="0..1" />
+    <End Role="Firm_To_Medicine" Type="Self.Firm_To_Medicine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Medicine">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Firm_To_Medicine">
+        <PropertyRef Name="MedicineId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Firm_To_T__FirmI__5165187F">
+    <End Role="Firms" Type="Self.Firm" Multiplicity="0..1" />
+    <End Role="Firm_To_Tags" Type="Self.Firm_To_Tags" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Firms">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Firm_To_Tags">
+        <PropertyRef Name="FirmId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Firm_To_T__TagId__52593CB8">
+    <End Role="Tags" Type="Self.Tag" Multiplicity="0..1" />
+    <End Role="Firm_To_Tags" Type="Self.Firm_To_Tags" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tags">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Firm_To_Tags">
+        <PropertyRef Name="TagId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Orders__Medicine__4316F928">
+    <End Role="Medicine" Type="Self.Medicine" Multiplicity="0..1" />
+    <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Medicine">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="MedicineId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tag_To_Medicine_Medicine">
+    <End Role="Medicine" Type="Self.Medicine" Multiplicity="0..1" />
+    <End Role="Tag_To_Medicine" Type="Self.Tag_To_Medicine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Medicine">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tag_To_Medicine">
+        <PropertyRef Name="MedicineId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Orders__WorkerId__440B1D61">
+    <End Role="Workers" Type="Self.Worker" Multiplicity="0..1" />
+    <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Workers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="WorkerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tag_To_Medicine_Tags">
+    <End Role="Tags" Type="Self.Tag" Multiplicity="0..1" />
+    <End Role="Tag_To_Medicine" Type="Self.Tag_To_Medicine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tags">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tag_To_Medicine">
+        <PropertyRef Name="TagId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PhymarcyDB" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Admins" EntityType="Self.Admin" />
+    <EntitySet Name="Firm_To_Medicine" EntityType="Self.Firm_To_Medicine" />
+    <EntitySet Name="Firm_To_Tags" EntityType="Self.Firm_To_Tags" />
+    <EntitySet Name="Firms" EntityType="Self.Firm" />
+    <EntitySet Name="Medicines" EntityType="Self.Medicine" />
+    <EntitySet Name="Orders" EntityType="Self.Order" />
+    <EntitySet Name="Tag_To_Medicine" EntityType="Self.Tag_To_Medicine" />
+    <EntitySet Name="Tags" EntityType="Self.Tag" />
+    <EntitySet Name="Workers" EntityType="Self.Worker" />
+    <AssociationSet Name="FK__Firm_To_M__FirmI__3E52440B" Association="Self.FK__Firm_To_M__FirmI__3E52440B">
+      <End Role="Firms" EntitySet="Firms" />
+      <End Role="Firm_To_Medicine" EntitySet="Firm_To_Medicine" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Firm_To_M__Medic__3D5E1FD2" Association="Self.FK__Firm_To_M__Medic__3D5E1FD2">
+      <End Role="Medicine" EntitySet="Medicines" />
+      <End Role="Firm_To_Medicine" EntitySet="Firm_To_Medicine" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Firm_To_T__FirmI__5165187F" Association="Self.FK__Firm_To_T__FirmI__5165187F">
+      <End Role="Firms" EntitySet="Firms" />
+      <End Role="Firm_To_Tags" EntitySet="Firm_To_Tags" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Firm_To_T__TagId__52593CB8" Association="Self.FK__Firm_To_T__TagId__52593CB8">
+      <End Role="Tags" EntitySet="Tags" />
+      <End Role="Firm_To_Tags" EntitySet="Firm_To_Tags" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Orders__Medicine__4316F928" Association="Self.FK__Orders__Medicine__4316F928">
+      <End Role="Medicine" EntitySet="Medicines" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tag_To_Medicine_Medicine" Association="Self.FK_Tag_To_Medicine_Medicine">
+      <End Role="Medicine" EntitySet="Medicines" />
+      <End Role="Tag_To_Medicine" EntitySet="Tag_To_Medicine" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Orders__WorkerId__440B1D61" Association="Self.FK__Orders__WorkerId__440B1D61">
+      <End Role="Workers" EntitySet="Workers" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tag_To_Medicine_Tags" Association="Self.FK_Tag_To_Medicine_Tags">
+      <End Role="Tags" EntitySet="Tags" />
+      <End Role="Tag_To_Medicine" EntitySet="Tag_To_Medicine" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
